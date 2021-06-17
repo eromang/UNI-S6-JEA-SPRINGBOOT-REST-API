@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -113,6 +114,7 @@ public class XML2JSONService implements IXML2JSONService {
         List<Months> monthsListToAdd = new ArrayList<>();
         int nbrMatchingMonths = 0;
 
+        HashMap<String, Double> monthCellsValue;
         MonthsData monthsDataToAdd = new MonthsData();
 
         // Iterate through the months
@@ -133,9 +135,13 @@ public class XML2JSONService implements IXML2JSONService {
 
             //int searchedYearsListSize = searchedYearsList.size();
 
+            int occurences = 0;
+
             for(String searchedYear: searchedYearsList) {
 
                 if (months.getMonthLabels().getMonthLabel().getMonthLabelValue().contains(searchedYear)) {
+
+                    monthCellsValue = new HashMap<String, Double>();
 
                     nbrMatchingMonths++;
                     //logger.info("nbrMatchingMonths : " + nbrMatchingMonths);
@@ -159,6 +165,28 @@ public class XML2JSONService implements IXML2JSONService {
                         String monthCellHeader = months.getMonthCell().get(j).getCellHeader();
                         Double monthCellValue = months.getMonthCell().get(j).getCellValue();
 
+                        /** to remove
+                        if(lastMonthCellsValue.get(monthCellHeader) != null) {
+
+                            Double lastmonthCellValue = lastMonthCellsValue.get(monthCellHeader);
+
+                            if (Double.compare(monthCellValue, lastmonthCellValue) == 0) {
+
+                                logger.info("monthCellValue == lastmonthCellValue");
+                            } else if (Double.compare(monthCellValue, lastmonthCellValue) < 0) {
+                                logger.info("monthCellValue < lastmonthCellValue");
+                            } else {
+                                logger.info("monthCellValue > lastmonthCellValue");
+                            }
+                        }
+
+                        lastMonthCellsValue = new HashMap<String, Double>();
+                        lastMonthCellsValue.put(monthCellHeader,monthCellValue);
+                         */
+
+
+                        monthCellsValue.put(monthCellHeader,monthCellValue);
+
                         String strSpace[] = monthCellHeader.split(" ");
 
                         HashMap<String, String> cellHeaders = cellHeaders();
@@ -167,12 +195,22 @@ public class XML2JSONService implements IXML2JSONService {
                             monthCellHeader = cellHeaders.get(strSpace[1]);
                         }
 
+                        // Add diff with previous month
                         MonthCell monthCellToAdd = new MonthCell(monthCellHeader, monthCellValue);
 
                         monthCellListToAdd.add(monthCellToAdd);
 
                         j++;
                     }
+
+                    // Debug
+                    for (Map.Entry mapElement : monthCellsValue.entrySet()) {
+                        String key = (String)mapElement.getKey();
+                        double value = ((double)mapElement.getValue());
+                        logger.info(key + " : " + value);
+                    }
+
+                    occurences++;
 
                     Months monthsToAdd = new Months(monthLabelsToAdd, monthCellListToAdd);
                     monthsListToAdd.add(monthsToAdd);

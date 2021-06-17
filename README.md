@@ -15,3 +15,12 @@ UNI S6 JEA Exercise 5 Springboot REST API
     - http://localhost:8080/api/swagger-ui/index.html?configUrl=/api/swagger-config#/
 
 
+HashMap<String, Double> monthCellsValue;
+HashMap<Integer, MonthCellsValue> MonthsCellsValue;
+
+Integer occurence = 0;
+
+for(String searchedYear: searchedYearsList) {
+  occurence++;
+  
+}
