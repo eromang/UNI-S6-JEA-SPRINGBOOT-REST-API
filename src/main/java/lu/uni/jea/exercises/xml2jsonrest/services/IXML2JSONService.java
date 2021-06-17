@@ -20,4 +20,5 @@ public interface IXML2JSONService {
     public void debug(RootElement deserializedData);
     public RootElement createRootElement(RootElement deserializedData, List<String> searchedYearsList);
     public HashMap<String, String> cellHeaders();
+    public HashMap<Integer, String> MonthUnitToText();
 }

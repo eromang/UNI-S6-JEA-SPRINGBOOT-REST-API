@@ -215,4 +215,24 @@ public class XML2JSONService implements IXML2JSONService {
 
         return cellHeaders;
     }
+
+    public HashMap<Integer, String> MonthUnitToText() {
+
+        HashMap<Integer, String> MonthUnitToText = new HashMap<Integer, String>();
+
+        MonthUnitToText.put(1, "January");
+        MonthUnitToText.put(2, "February");
+        MonthUnitToText.put(3, "March");
+        MonthUnitToText.put(4, "April");
+        MonthUnitToText.put(5, "May");
+        MonthUnitToText.put(6, "June");
+        MonthUnitToText.put(7, "July");
+        MonthUnitToText.put(8, "August");
+        MonthUnitToText.put(9, "September");
+        MonthUnitToText.put(10, "October");
+        MonthUnitToText.put(11, "November");
+        MonthUnitToText.put(12, "December");
+
+        return MonthUnitToText;
+    }
 }
