@@ -13,14 +13,5 @@ UNI S6 JEA Exercise 5 Springboot REST API
 - Documentation available:
     - http://localhost:8080/api/
     - http://localhost:8080/api/swagger-ui/index.html?configUrl=/api/swagger-config#/
-
-
-HashMap<String, Double> monthCellsValue;
-HashMap<Integer, MonthCellsValue> MonthsCellsValue;
-
-Integer occurence = 0;
-
-for(String searchedYear: searchedYearsList) {
-  occurence++;
   
-}
+Add field variation in month data per Cell for the monthly variation between months.
