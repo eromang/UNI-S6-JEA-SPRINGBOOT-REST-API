@@ -1,6 +1,7 @@
 package lu.uni.jea.exercises.xml2jsonrest.dtos;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.apache.log4j.Logger;
 
@@ -27,6 +28,9 @@ public class MonthCell {
     //@JsonProperty("month_data_value")
     private double cellValue;
 
+    @JsonProperty("variation")
+    private double variation;
+
     // Empty constructor
 
     public MonthCell() {}
@@ -36,6 +40,12 @@ public class MonthCell {
     public MonthCell(String cellHeader, double cellValue) {
         this.setCellHeader(cellHeader);
         this.setCellValue(cellValue);
+    }
+
+    public MonthCell(String cellHeader, double cellValue, double variation) {
+        this.setCellHeader(cellHeader);
+        this.setCellValue(cellValue);
+        this.setVariation(variation);
     }
 
     public void reset() {
@@ -59,5 +69,13 @@ public class MonthCell {
 
     public void setCellValue(double cellValue) {
         this.cellValue = cellValue;
+    }
+
+    public double getVariation() {
+        return variation;
+    }
+
+    public void setVariation(double variation) {
+        this.variation = variation;
     }
 }

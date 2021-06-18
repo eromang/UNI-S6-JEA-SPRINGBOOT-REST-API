@@ -161,6 +161,8 @@ public class XML2JSONService implements IXML2JSONService {
 
                         // Access monthCellValue of previous month
 
+                        Double result = 0.00;
+
                         if(nbrMatchingMonths >= 2) {
                             int previousMonth = nbrMatchingMonths - 1;
                             List<Double> previousMonthCellValues = cellValuesByMatchingMonths.get(previousMonth);
@@ -169,17 +171,17 @@ public class XML2JSONService implements IXML2JSONService {
                                 if(Double.compare(monthCellValue, previousMonthCellValue) == 0) {
                                     // Results are identical
                                     logger.info("monthCellValue == previousMonthCellValue");
-                                    Double result = 0.00;
+                                    result = 0.00;
                                     logger.info("Difference: " + result);
                                 } else if (Double.compare(monthCellValue, previousMonthCellValue) < 0) {
                                     // Reduction on the current month compared to last month
                                     logger.info("monthCellValue < previousMonthCellValue");
-                                    Double result = monthCellValue - previousMonthCellValue;
+                                    result = monthCellValue - previousMonthCellValue;
                                     logger.info("Difference: " + result);
                                 } else {
                                     // Increase on the current month compared to last month
                                     logger.info("monthCellValue > previousMonthCellValue");
-                                    Double result = monthCellValue - previousMonthCellValue;
+                                    result = monthCellValue - previousMonthCellValue;
                                     logger.info("Difference: " + result);
                                 }
                             }
@@ -196,7 +198,7 @@ public class XML2JSONService implements IXML2JSONService {
                         }
 
                         // Add diff with previous month
-                        MonthCell monthCellToAdd = new MonthCell(monthCellHeader, monthCellValue);
+                        MonthCell monthCellToAdd = new MonthCell(monthCellHeader, monthCellValue, result);
 
                         monthCellListToAdd.add(monthCellToAdd);
 
