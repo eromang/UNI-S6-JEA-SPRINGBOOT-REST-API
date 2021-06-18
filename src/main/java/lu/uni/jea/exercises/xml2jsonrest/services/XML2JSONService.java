@@ -108,14 +108,13 @@ public class XML2JSONService implements IXML2JSONService {
 
     public RootElement createRootElement(RootElement toCreatedRootElement, List<String> searchedYearsList) {
 
-        // For testing purpose
-        //String searchedYear = "2018";
-
         List<Months> monthsListToAdd = new ArrayList<>();
         int nbrMatchingMonths = 0;
-
-        HashMap<String, Double> monthCellsValue;
         MonthsData monthsDataToAdd = new MonthsData();
+
+        // Integer correspond the the matching month
+        // ArrayList is used to store the Cell values (in Double) of the month from 0 to 9
+        Map<Integer, List<Double>> cellValuesByMatchingMonths = new HashMap<>();
 
         // Iterate through the months
 
@@ -133,15 +132,9 @@ public class XML2JSONService implements IXML2JSONService {
 
             // Research for each occurrence in the searchedYearsList
 
-            //int searchedYearsListSize = searchedYearsList.size();
-
-            int occurences = 0;
-
             for(String searchedYear: searchedYearsList) {
 
                 if (months.getMonthLabels().getMonthLabel().getMonthLabelValue().contains(searchedYear)) {
-
-                    monthCellsValue = new HashMap<String, Double>();
 
                     nbrMatchingMonths++;
                     //logger.info("nbrMatchingMonths : " + nbrMatchingMonths);
@@ -159,33 +152,40 @@ public class XML2JSONService implements IXML2JSONService {
 
                     int j = 0;
                     List<MonthCell> monthCellListToAdd = new ArrayList<>();
+                    List<Double> monthCellValues = new ArrayList<>();
 
                     while (j < nbrMonthCells) {
 
                         String monthCellHeader = months.getMonthCell().get(j).getCellHeader();
                         Double monthCellValue = months.getMonthCell().get(j).getCellValue();
 
-                        /** to remove
-                        if(lastMonthCellsValue.get(monthCellHeader) != null) {
+                        // Access monthCellValue of previous month
 
-                            Double lastmonthCellValue = lastMonthCellsValue.get(monthCellHeader);
-
-                            if (Double.compare(monthCellValue, lastmonthCellValue) == 0) {
-
-                                logger.info("monthCellValue == lastmonthCellValue");
-                            } else if (Double.compare(monthCellValue, lastmonthCellValue) < 0) {
-                                logger.info("monthCellValue < lastmonthCellValue");
-                            } else {
-                                logger.info("monthCellValue > lastmonthCellValue");
+                        if(nbrMatchingMonths >= 2) {
+                            int previousMonth = nbrMatchingMonths - 1;
+                            List<Double> previousMonthCellValues = cellValuesByMatchingMonths.get(previousMonth);
+                            if(j > 1) {
+                                Double previousMonthCellValue = previousMonthCellValues.get(j);
+                                if(Double.compare(monthCellValue, previousMonthCellValue) == 0) {
+                                    // Results are identical
+                                    logger.info("monthCellValue == previousMonthCellValue");
+                                    Double result = 0.00;
+                                    logger.info("Difference: " + result);
+                                } else if (Double.compare(monthCellValue, previousMonthCellValue) < 0) {
+                                    // Reduction on the current month compared to last month
+                                    logger.info("monthCellValue < previousMonthCellValue");
+                                    Double result = monthCellValue - previousMonthCellValue;
+                                    logger.info("Difference: " + result);
+                                } else {
+                                    // Increase on the current month compared to last month
+                                    logger.info("monthCellValue > previousMonthCellValue");
+                                    Double result = monthCellValue - previousMonthCellValue;
+                                    logger.info("Difference: " + result);
+                                }
                             }
                         }
 
-                        lastMonthCellsValue = new HashMap<String, Double>();
-                        lastMonthCellsValue.put(monthCellHeader,monthCellValue);
-                         */
-
-
-                        monthCellsValue.put(monthCellHeader,monthCellValue);
+                        monthCellValues.add(monthCellValue);
 
                         String strSpace[] = monthCellHeader.split(" ");
 
@@ -203,14 +203,7 @@ public class XML2JSONService implements IXML2JSONService {
                         j++;
                     }
 
-                    // Debug
-                    for (Map.Entry mapElement : monthCellsValue.entrySet()) {
-                        String key = (String)mapElement.getKey();
-                        double value = ((double)mapElement.getValue());
-                        logger.info(key + " : " + value);
-                    }
-
-                    occurences++;
+                    cellValuesByMatchingMonths.put(nbrMatchingMonths, monthCellValues);
 
                     Months monthsToAdd = new Months(monthLabelsToAdd, monthCellListToAdd);
                     monthsListToAdd.add(monthsToAdd);
