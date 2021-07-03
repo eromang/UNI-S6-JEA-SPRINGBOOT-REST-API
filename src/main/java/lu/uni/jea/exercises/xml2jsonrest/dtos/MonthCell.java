@@ -1,5 +1,6 @@
 package lu.uni.jea.exercises.xml2jsonrest.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -28,8 +29,11 @@ public class MonthCell {
     //@JsonProperty("month_data_value")
     private double cellValue;
 
+    @JsonProperty("roundValue")
+    private int roundCellvalue;
+
     @JsonProperty("variation")
-    private double variation;
+    private int variation;
 
     // Empty constructor
 
@@ -46,6 +50,7 @@ public class MonthCell {
         this.setCellHeader(cellHeader);
         this.setCellValue(cellValue);
         this.setVariation(variation);
+        this.setRoundCellvalue(cellValue);
     }
 
     public void reset() {
@@ -71,11 +76,19 @@ public class MonthCell {
         this.cellValue = cellValue;
     }
 
-    public double getVariation() {
+    public int getVariation() {
         return variation;
     }
 
     public void setVariation(double variation) {
-        this.variation = variation;
+        this.variation = (int) Math.round(variation);
+    }
+
+    public int getRoundCellvalue() {
+        return roundCellvalue;
+    }
+
+    public void setRoundCellvalue(double cellValue) {
+        this.roundCellvalue = (int) Math.round(cellValue);
     }
 }

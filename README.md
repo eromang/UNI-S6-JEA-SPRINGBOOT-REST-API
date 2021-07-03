@@ -11,7 +11,9 @@ UNI S6 JEA Exercise 5 Springboot REST API
     - http://localhost:8080/exercise5/YYYYMM
     - http://localhost:8080/exercise5/YYYY
 - Documentation available:
-    - http://localhost:8080/api/
+    - http://localhost:8080/api/  
     - http://localhost:8080/api/swagger-ui/index.html?configUrl=/api/swagger-config#/
   
 Add field variation in month data per Cell for the monthly variation between months.
+
+v value of the Cell is rounded
